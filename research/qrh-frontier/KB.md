@@ -39,6 +39,10 @@ reasoning beyond the write-up. The verifier returns SCORE 1–10, MAJOR_GAPS, MI
 - F9 Identifying ρ₆ at squarefree m as a Gauss-sum expression (theta_id).
 - F10 Amplitude cap: lowering p_max, slot-based zero detectors, height averaging (solverF).
 - F11 Certificate-constant sharpening, triple-point mixing, bin splitting (solverH).
+- F13 B4 simultaneous zeros (solverI): the second character adds nothing over a one-character product with two truncations.
+  Extending UM/MI to products gives an exact tie (5/6). Hölder, slot or η-correlation routes reproduce existing lines.
+  The remaining need is a degree-2 inverse mean value beyond the conductor with slope < 5/6 (the same barrier as (★)), worth
+  about half of (★): λ = .8 gives ~1.3e-4, λ = .6 gives ~1.6e-3 (grid model).
 - F12 ε-Hölder for the numerator: higher moments via pointwise input, MP0 factorization, Halász–Montgomery or
   Huxley-type large values (solverJ; adversary bin saturates the toolkit).
 
@@ -81,7 +85,12 @@ reasoning beyond the write-up. The verifier returns SCORE 1–10, MAJOR_GAPS, MI
 - arXiv reading: done (literatureG). Dunn 2403.13151 and Castillo–de Faveri–Dunn 2604.01316 do not transfer.
   Bröker–Hoffstein Conj. 5.7 (τ₆(π)² = cubic Gauss sum × patternless unit) supports PSR heuristically.
   Unread lead: Diaconu 2004 (general-order Kubota series; likely "entire for ℓ ≠ 0" at n = 6).
-- Round 2 solvers in flight: B4 simultaneous zeros (solverI), B5 ε-Hölder (solverJ).
+- Round 2 solvers done: B4 (solverI → F13) and B5 (solverJ → F12) are both negative.
+- Status after round 3: no improvement. The live targets, all needing new theorems, are:
+  (Π_s) averaged τ₆ non-correlation (c → 1/6 − s, floor 1/7);
+  a sixth moment on bin rows with η > 0.00237;
+  (★)/degree-2 inverse mean values with slope < 5/6;
+  an MP slot cost below 6κ.
 - Mathbox verification session (branch research/qrh-mathbox) in flight.
 
 ## advisor_notes
