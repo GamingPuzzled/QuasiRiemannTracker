@@ -59,7 +59,11 @@ reasoning beyond the write-up. The verifier returns SCORE 1–10, MAJOR_GAPS, MI
   proven generic barrier. Its (★) and zero-density consequences are weaker than the record's.
 
 ## frontier (open tasks / in flight)
-- Direct numerical non-correlation test of T against τ₆ (exp/noncorr/, in flight).
+- Non-correlation numerics DONE (solverG, evidence only, split-prime proxy). At index m·d the pole-part correlation
+  of T with ϱ₆ is at the random level through Q = 4000 (ρ² ≈ Q^{-1}; needed ρ² ≤ Z^{-0.029}). Only N(d) ≤ 25 was
+  tested. At Q = 8000 every γ₁-carrying vector shows ρ² ~ 1e-3 (≈3σ), unresolved, so the safe statement is
+  ρ² ≲ Q^{-1/2}. The cubic validation passes. No proof: coherence across μ ≤ Q^{0.8} hits the same wall as PSR.
+  Open check: re-run Q = 8000 (and larger N(d)) to decide whether the excess is real or a proxy artefact.
 - arXiv reading: done (literatureG). Dunn 2403.13151 and Castillo–de Faveri–Dunn 2604.01316 do not transfer.
   Bröker–Hoffstein Conj. 5.7 (τ₆(π)² = cubic Gauss sum × patternless unit) supports PSR heuristically.
   Unread lead: Diaconu 2004 (general-order Kubota series; likely "entire for ℓ ≠ 0" at n = 6).
