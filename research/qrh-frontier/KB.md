@@ -34,6 +34,8 @@ reasoning beyond the write-up. The verifier returns SCORE 1–10, MAJOR_GAPS, MI
 - F9 Identifying ρ₆ at squarefree m as a Gauss-sum expression (theta_id).
 - F10 Amplitude cap: lowering p_max, slot-based zero detectors, height averaging (solverF).
 - F11 Certificate-constant sharpening, triple-point mixing, bin splitting (solverH).
+- F12 ε-Hölder for the numerator: higher moments via pointwise input, MP0 factorization, Halász–Montgomery or
+  Huxley-type large values (solverJ; adversary bin saturates the toolkit).
 
 ## bottlenecks (precise missing inputs, with payoff)
 - B1 Twisted energy E_a ≪ Q(Q+Y)Z^ε for T = ψᾱ²γ₁𝓡 (equivalently τ₆ non-correlation or PSR): c 1/6 → 0, θ ≈ 0.865152.
@@ -50,6 +52,13 @@ reasoning beyond the write-up. The verifier returns SCORE 1–10, MAJOR_GAPS, MI
 - B6 update (solverK, PENDING VERIFICATION, see verifierK): a perfect pole gives c = 1/7 (θ ≈ 0.873641), not 0.
   A saving s must hold uniformly for N(d) ≤ P_a^{6s}, which gives c = max(1/6 − s, 1/7). The missing theorem is the
   averaged non-correlation (Π_s) in solverK §5. Angular-twist handle (i) fails (non-abelian torus).
+
+- B5 update (solverJ, unverified negative claims): there is no ε-improvement of the numerator Hölder step using the paper's
+  toolkit. The construction scripts/epsholder/adversary.py builds an exponent-level virtual bin that satisfies every row
+  inequality to within 2.2e-16 (UM, B0.9, MI, MP/MP0/mixed, pointwise, the cap, Lemma 1W) and saturates the fourth moment.
+  So any gain needs an estimate outside the toolkit. The precise target is a sixth moment on bin rows beating the trivial
+  bound by U^{η·n} with η > 0.00237 (e.g. η = 0.0025 gives θ = 0.8748847499834). General-coefficient sieves give exponent
+  ≥ 3n = 1.263 > trivial 1.1976, and the short-length range (3n ≤ 1) is never available because n > 8/21.
 
 ## corrections
 - C1 (literatureG): the pole-part theta index is τ₆(h′m), not τ₆(h′m⁵) as solverE §3.2 and FINDINGS state. With m⁵ the
