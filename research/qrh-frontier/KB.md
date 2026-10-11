@@ -21,6 +21,11 @@ reasoning beyond the write-up. The verifier returns SCORE 1–10, MAJOR_GAPS, MI
 - P4 Hölder mixing of moment lines never beats the minimum line. The mixed MP line is the average of the pure lines (solverH).
 - P5 The amplitude cap p ≤ 1/2 is the sharp pointwise bound (B0.16), saturated by single-zero rows (solverF).
 - P6 Twist escape: ξ must have order dividing 6, which forces the C0=1 exceptional Gram term (tick 4).
+- P7 (solverK claims 3, 4, 9; verifierK score 9) Pole and off-pole targets at d ≍ 1 are Z^.0144 and Z^.0072, matching de Faveri
+  Thm 1.1. Savings at bounded d alone give nothing. Averaging over d gives no saving at the binding point d = 1.
+- P8 (solverK claims 1, 5, 6; verifierK score 8, minor gaps only) The method reduces to (★★) with Kubota index dm and weight
+  (P_a/N d)^{1/6}. GCD sorting is de Faveri Lemma 4.4, not 4.3, and Lemma 5.1's Möbius r-terms still need carrying.
+  c = max(1/6 − s, 1/7); θ(1/7) = 0.873641042, θ(5/42) = 0.872046990. The 1/7 floor holds for this method only.
 
 ## failed_attempts (do not repeat without a new idea)
 - F1 Relaxing M+2z ≤ N_* (column-branch cost s, break-even needs ≤ .25s).
@@ -49,7 +54,7 @@ reasoning beyond the write-up. The verifier returns SCORE 1–10, MAJOR_GAPS, MI
   off-pole part (needs Lindelöf-on-average for sextic Kubota series). ANY partial saving gives c < 1/6, which beats
   the record. Normalizations are heuristic and unverified.
 
-- B6 update (solverK, PENDING VERIFICATION, see verifierK): a perfect pole gives c = 1/7 (θ ≈ 0.873641), not 0.
+- B6 update (solverK; verified, see P7–P8): a perfect pole gives c = 1/7 (θ ≈ 0.873641), not 0.
   A saving s must hold uniformly for N(d) ≤ P_a^{6s}, which gives c = max(1/6 − s, 1/7). The missing theorem is the
   averaged non-correlation (Π_s) in solverK §5. Angular-twist handle (i) fails (non-abelian torus).
 
