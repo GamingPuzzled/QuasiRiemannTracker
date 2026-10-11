@@ -20,6 +20,7 @@ def pieces_single(t, d, q, k, L):
     lo0 = max(0.0, t - 0.5)
     mcap = (1 - 6*k*L)/2                       # A_P capacity capped for m < mcap
     bps = sorted(set([lo0, t] + [b for b in (1 - 2*L, 1.0, t - mcap) if lo0 < b < t]))
+    if len(bps) == 1: bps = [lo0, lo0]          # degenerate interval (t = 0)
     out = []
     for lo, hi in zip(bps[:-1], bps[1:]):
         mid = (lo + hi)/2; aff = []
@@ -41,9 +42,8 @@ def joint_pieces(d, q, L, lam, slots):
     """affine pieces (a, b1, b2) of e(r1,r2) - d(r1+r2), as a MAX of affine functions (each used
     separately: value = max over pieces).  Poisson-range slotted line is a MIN-type improvement:
     returned separately as constraints valid when x<=1."""
-    P = [(1, -d, -d), (1/6, 5/6 - d, -d), (1/6, -d, 5/6 - d)]
-    if np.isfinite(lam): P.append((1 - lam, lam - d, lam - d))
-    return P
+    if not np.isfinite(lam): return [None]       # no joint line at all
+    return [(1, -d, -d), (1/6, 5/6 - d, -d), (1/6, -d, 5/6 - d), (1 - lam, lam - d, lam - d)]
 
 def lp_max(cons, box):
     """max v s.t. v <= a + b1 r1 + b2 r2 for (a,b1,b2) in cons, r in box. Returns v."""
@@ -59,16 +59,18 @@ def value(t1, t2, d, q, k, L, lam, slots=True, ret_arg=False):
         for (l2, h2, a2) in S2:
             base = [(a, b, 0.0) for (a, b) in a1] + [(a, 0.0, b) for (a, b) in a2]
             for jp in JP:
-                cons = base + [jp]
+                cons = base + ([jp] if jp is not None else [])
                 v = lp_max(cons, [(l1, h1), (l2, h2)])
-                if slots and l1 + l2 < 1:      # in the joint Poisson range the MI-slotted line also applies
-                    # split by x<=1 vs x>=1 : add x<=1 region with extra slotted constraints
-                    extra = [(1 - q, -(d - q), -(d - q)), (1 - 2*q*L, -d, -d)]  # min of these = slotted line (concave)
-                    # region x<=1:
-                    A = [[-c[1], -c[2], 1.0] for c in cons + extra] + [[1, 1, 0]]
-                    bb = [c[0] for c in cons + extra] + [1.0]
-                    r = linprog([0, 0, -1], A_ub=A, b_ub=bb, bounds=[(l1, h1), (l2, h2), (None, None)], method="highs")
-                    v_in = -r.fun if r.status == 0 else -np.inf
+                if slots and jp is not None and l1 + l2 < 1:
+                    # Poisson-range MI-slotted joint line  1 - d x - 2q min((1-x)/2, L)
+                    #   = MAX of two affine pieces (convex): treat each piece separately, region x<=1.
+                    v_in = -np.inf
+                    for extra in [(1 - q, -(d - q), -(d - q)), (1 - 2*q*L, -d, -d)]:
+                        cc = cons + [extra]          # exact: J piece AND slotted piece both active
+                        A = [[-c[1], -c[2], 1.0] for c in cc] + [[1, 1, 0]]
+                        bb = [c[0] for c in cc] + [1.0]
+                        r = linprog([0, 0, -1], A_ub=A, b_ub=bb, bounds=[(l1, h1), (l2, h2), (None, None)], method="highs")
+                        if r.status == 0: v_in = max(v_in, -r.fun)
                     A = [[-c[1], -c[2], 1.0] for c in cons] + [[-1, -1, 0]]
                     bb = [c[0] for c in cons] + [-1.0]
                     r = linprog([0, 0, -1], A_ub=A, b_ub=bb, bounds=[(l1, h1), (l2, h2), (None, None)], method="highs")
@@ -103,8 +105,10 @@ if __name__ == "__main__":
     tst = 1 + d0*(2*(1-.5)*(1-.5/(3*k0))/(3-.5-2*.5/(3*k0)))/(2*((5/6-d0)+d0*(2*(1-.5)*(1-.5/(3*k0))/(3-.5-2*.5/(3*k0)))))
     print("t* =", tst, " value(t*,t*, no joint) =", value(tst, tst, d0, q0, k0, L0, np.inf, slots=False))
     print("min over t (no joint):", R_new(d0, .5, k0, L0, np.inf, tmin=0.0, slots=False))
-    for tmin in (1.0, 0.0):
+    import sys as _s
+    tmins = [float(a) for a in _s.argv[1:]] or [1.0, 0.0]
+    for tmin in tmins:
         print(f"--- t_i >= {tmin}")
-        for lam in [5/6, 0.8, 0.75, 0.7, 0.65, 0.62, 0.6, 0.58, 0.55, 0.5, 0.469344858698, 0.4, 0.0]:
+        for lam in [5/6, 0.75, 0.65, 0.6, 0.59, 0.58, 0.55, 0.5]:
             v, a, b = R_new(d0, .5, k0, L0, lam, tmin=tmin)
             print(f"lam={lam:.4f}  R_new={v:.9f}  dR={v-R0:+.4e}  t=({a:.4f},{b:.4f})", flush=True)

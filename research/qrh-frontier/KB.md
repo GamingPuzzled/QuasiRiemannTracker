@@ -47,6 +47,10 @@ reasoning beyond the write-up. The verifier returns SCORE 1–10, MAJOR_GAPS, MI
   off-pole part (needs Lindelöf-on-average for sextic Kubota series). ANY partial saving gives c < 1/6, which beats
   the record. Normalizations are heuristic and unverified.
 
+- B6 update (solverK, PENDING VERIFICATION, see verifierK): a perfect pole gives c = 1/7 (θ ≈ 0.873641), not 0.
+  A saving s must hold uniformly for N(d) ≤ P_a^{6s}, which gives c = max(1/6 − s, 1/7). The missing theorem is the
+  averaged non-correlation (Π_s) in solverK §5. Angular-twist handle (i) fails (non-abelian torus).
+
 ## corrections
 - C1 (literatureG): the pole-part theta index is τ₆(h′m), not τ₆(h′m⁵) as solverE §3.2 and FINDINGS state. With m⁵ the
   term would vanish trivially (τ₆(Mp⁵)=0); with h′m it is needed at unknown squarefree indices.

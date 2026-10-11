@@ -17,6 +17,7 @@ ap.add_argument('--Qs', default='500,1000,2000,4000,8000')
 ap.add_argument('--conv', default='lam')
 ap.add_argument('--nh', type=int, default=6)
 ap.add_argument('--nrand', type=int, default=400)
+ap.add_argument('--index', default='md', help="'md': conj chi_a(d) -> theta index m*d (correct, (**)); 'mh5': chi_a(h') -> index m*h'^5 (first runs)")
 ap.add_argument('--seed', type=int, default=1)
 ap.add_argument('--out', default='out/pooled.json')
 args = ap.parse_args()
@@ -56,7 +57,8 @@ for Q in Qs:
         A = np.zeros((nH, nM), complex)
         for s in range(0, len(A_sets[Y]), 400):
             X = char_matrix([c[1] for c in A_sets[Y][s:s+400]], E, Zr, cols, P, dummy)
-            A += (X[:, nM:]*ga[Y][s:s+400, None]).T @ np.conj(X[:, :nM])
+            Xh = X[:, nM:] if args.index == 'mh5' else np.conj(X[:, nM:])
+            A += (Xh*ga[Y][s:s+400, None]).T @ np.conj(X[:, :nM])
         As.append(A)
     As = np.array(As)                                           # (#win, #h, #m)
     # m-side vectors

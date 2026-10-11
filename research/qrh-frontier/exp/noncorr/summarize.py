@@ -44,6 +44,20 @@ def pooled_table(path):
             return f"{x['m1']:7.2f}±{x['se1']:4.2f}/{x['max1']:4.0f}"
         print(f"{c['Q']:5d} {c['nM']:5d} {c['pole_z'][0]:7.1f} " + " ".join(fmt(n) for n in names))
     print("   (families: mean±se / max)")
+    # pole-part Cauchy-Schwarz ratio rho^2 = |<T, pole>|^2/(||T||^2 ||pole||^2); 2-sigma upper bounds and log-log slope in Q
+    Qs, ubT, ubF, ubD = [], [], [], []
+    for c in cells:
+        F = c['fam']; nM = c['nM']; sdR = F['RAND']['sd1']
+        Qs.append(c['Q'])
+        ubT.append((max(F['T']['m1'], 0) + 2*sdR)/nM)
+        ubF.append((max(F['T*nu']['m1'], 0) + 2*F['T*nu']['se1'])/nM)
+        ubD.append(F['T']['mrest']/nM)
+    lQ = np.log(Qs)
+    sT = np.polyfit(lQ, np.log(ubT), 1)[0]; sF = np.polyfit(lQ, np.log(ubF), 1)[0]
+    print("   pole-part CS ratio rho^2 (2-sigma upper bounds):  " + ", ".join(
+        f"Q={q}: T<={a:.1e}, <T*nu><={b:.1e}" for q, a, b in zip(Qs, ubT, ubF)))
+    print(f"   log-log slope in Q: T {sT:.2f}, T*nu family {sF:.2f}   (random/no-main-term: -1; main term: 0)")
+    print("   T at d!=1 (mean #m*rho2 over d, /#m): " + ", ".join(f"Q={q}: {x*1:.1e}" for q, x in zip(Qs, ubD)))
 
 
 if __name__ == '__main__':

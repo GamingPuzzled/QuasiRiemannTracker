@@ -22,6 +22,7 @@ ap.add_argument('--n', type=int, default=6)
 ap.add_argument('--Ys', default='25000,50000,100000')
 ap.add_argument('--Qs', default='500,1000,2000')
 ap.add_argument('--conv', default='lam')
+ap.add_argument('--index', default='md', help="'md': conj chi_a(d) -> theta index m*d (correct, (**)); 'mh5': chi_a(h') -> index m*h'^5 (first runs)")
 ap.add_argument('--seed', type=int, default=0)
 ap.add_argument('--nh', type=int, default=12)
 ap.add_argument('--nrand', type=int, default=200)
@@ -70,7 +71,7 @@ def kubota(Y, Q, KV=None):
     Ea = np.zeros(0 if KV is None else len(KV)); gn = np.zeros(nH)
     for s in range(0, len(A_set), 400):
         X = char_matrix([c[1] for c in A_set[s:s+400]], E, Zr, cols, P, dummy)
-        Xm = np.conj(X[:, :nM]); Xh = X[:, nM:]; g = ga[s:s+400]; hb = half[s:s+400]
+        Xm = np.conj(X[:, :nM]); Xh = X[:, nM:] if args.index == 'mh5' else np.conj(X[:, nM:]); g = ga[s:s+400]; hb = half[s:s+400]
         A0 += (Xh*(g*(hb == 0))[:, None]).T @ Xm
         A1 += (Xh*(g*(hb == 1))[:, None]).T @ Xm
         gn += np.sum(np.abs(Xh*g[:, None])**2, axis=0)
