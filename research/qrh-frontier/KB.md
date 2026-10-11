@@ -41,10 +41,28 @@ reasoning beyond the write-up. The verifier returns SCORE 1–10, MAJOR_GAPS, MI
 - B3 MP slot cost below 6κ (new amplifier with a better row-growth to gain ratio): c = 5 gives θ ≈ 0.874658.
 - B4 NEW (solverH): a mean value for 1/(L(ψ̄_u)L(ηψ̄_u)), counting rows with simultaneous low zeros. This adds a new count line at the triple point. Not yet priced.
 - B5 Any change of ≥ 1.3e-6 in the Hölder 1/4 or the Gram 1/12 coefficient gains 1e-7.
+- B6 NEW (literatureG): (★★), our specific vector run through de Faveri's proof (arXiv:2610.04045, Lemma 6.1):
+  Σ_{d≤P_a}(P_a/N d)^{1/6}|Σ_{a~Y}F_a g̃₆(a)χ̄_a(d)|² ≪ Z^ε·Y·Σ|F_a|².
+  Needed: beat Cauchy–Schwarz by Z^{.0144} in the pole part (correlation of c_m with ρ₆(dm)) and by Z^{.0072} in the
+  off-pole part (needs Lindelöf-on-average for sextic Kubota series). ANY partial saving gives c < 1/6, which beats
+  the record. Normalizations are heuristic and unverified.
+
+## corrections
+- C1 (literatureG): the pole-part theta index is τ₆(h′m), not τ₆(h′m⁵) as solverE §3.2 and FINDINGS state. With m⁵ the
+  term would vanish trivially (τ₆(Mp⁵)=0); with h′m it is needed at unknown squarefree indices.
+- C2 (literatureG): de Faveri arXiv:2610.04045 Thm 1.1 PROVES the n-th order sieve A+B+A^{1−1/n}B^{2/n}+A^{2/n}B^{1−1/n}
+  (n ≥ 3), superseding BGL (M+N+(MN)^{2/3}). This gives c = 1/6 unconditionally (= record, no gain) and makes 1/6 the
+  proven generic barrier. Its (★) and zero-density consequences are weaker than the record's.
 
 ## frontier (open tasks / in flight)
 - Direct numerical non-correlation test of T against τ₆ (exp/noncorr/, in flight).
-- arXiv reading: Dunn 2403.13151, Castillo–de Faveri–Dunn 2604.01316, Bröker–Hoffstein 1312.0568 (in flight).
+- arXiv reading: done (literatureG). Dunn 2403.13151 and Castillo–de Faveri–Dunn 2604.01316 do not transfer.
+  Bröker–Hoffstein Conj. 5.7 (τ₆(π)² = cubic Gauss sum × patternless unit) supports PSR heuristically.
+  Unread lead: Diaconu 2004 (general-order Kubota series; likely "entire for ℓ ≠ 0" at n = 6).
+- Round 2 solvers in flight: B4 simultaneous zeros (solverI), B5 ε-Hölder (solverJ).
+- Mathbox verification session (branch research/qrh-mathbox) in flight.
 
 ## advisor_notes
 - Round 1 (2026-10-11): solverF (amplitude cap), solverH (small gains) and literatureF all returned negative; they are recorded above.
+- Round 2: literatureG returned B6 and corrections C1–C2. Correction C1 was relayed to the running noncorr agent.
+  Plan for round 3: a solver on B6 partial savings (pole part first), informed by the noncorr numerics.
