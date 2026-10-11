@@ -1,0 +1,50 @@
+# QRH knowledge base (harness memory)
+
+Structured memory for the advisor → solvers → verifier loop, modelled on the UCLA First Proof batch-2 harness
+(github.com/1stproof/batch-2, batch-2-submissions/ucla). The advisor reads this file before each round, gives each
+solver only the context it needs, and records results here. `FINDINGS.md` remains the detailed log.
+
+Target: lower θ below 683505193/781250000 ≈ 0.87488664704 (cycle25 quartic; θ = 11/12 − ℓ/4).
+Paper: proofs/cycle25-quartic-20261010/manuscript/paper.md. Exponent model: scripts/slack2.py.
+
+## Verifier protocol
+Every positive claim (lemma, estimate, θ gain) goes to an independent verifier agent that has not seen the solver's
+reasoning beyond the write-up. The verifier returns SCORE 1–10, MAJOR_GAPS, MINOR_GAPS.
+- ≥ 9: accepted → `proven_results`.
+- 7–8: one targeted patch round on the minor gaps, then re-verify (max 2 patches per gap).
+- ≤ 6: → `failed_attempts`, with the gap as the reason. Future solver prompts receive it.
+
+## proven_results (verified; usable as lemmas)
+- P1 Record arithmetic is correct; θ − b0 = 3.6e-14 is the only rounding slack (audit.py, solverH).
+- P2 Active constraints at the optimum: M+ℓ=1, p ≤ 1/2, the δ/h saddle, d=h. All other certificate constants have positive margin (solverH).
+- P3 Conversion: ΔF at the binding point (δ0≈.4693, p=.5, κ0≈.7498) gives Δθ ≈ 0.23·ΔF. ΔR = −1e-3 gives Δθ ≈ −1.4e-4.
+- P4 Hölder mixing of moment lines never beats the minimum line. The mixed MP line is the average of the pure lines (solverH).
+- P5 The amplitude cap p ≤ 1/2 is the sharp pointwise bound (B0.16), saturated by single-zero rows (solverF).
+- P6 Twist escape: ξ must have order dividing 6, which forces the C0=1 exceptional Gram term (tick 4).
+
+## failed_attempts (do not repeat without a new idea)
+- F1 Relaxing M+2z ≤ N_* (column-branch cost s, break-even needs ≤ .25s).
+- F2 Parameter retuning or geometry (x is minimax-optimal; y<x is worse).
+- F3 Improving estimates away from δ0 (saddle point; zero first-order gain).
+- F4 (★) via Poisson/duality (involution), via a zero-count bootstrap (E′ > E), or via the Heath-Brown identity (loses Möbius structure).
+- F5 Product-witness mean value M·S (R changes only at the noise level).
+- F6 MP slot cost: c = 6 is optimal within the method (generic child saturates B3.70).
+- F7 Gram exceptional term via column weights, other ξ, or non-S twists (Solver C Prop. O, partially proven).
+- F8 Twisted energy E_a: the generic sieve gives c = 1/3; DR §9 needs pointwise PSR (stronger than GRH) (solverD/E).
+- F9 Identifying ρ₆ at squarefree m as a Gauss-sum expression (theta_id).
+- F10 Amplitude cap: lowering p_max, slot-based zero detectors, height averaging (solverF).
+- F11 Certificate-constant sharpening, triple-point mixing, bin splitting (solverH).
+
+## bottlenecks (precise missing inputs, with payoff)
+- B1 Twisted energy E_a ≪ Q(Q+Y)Z^ε for T = ψᾱ²γ₁𝓡 (equivalently τ₆ non-correlation or PSR): c 1/6 → 0, θ ≈ 0.865152.
+- B2 (★) Möbius sextic mean value beyond the Poisson range with λ < 5/6: λ = .8 gives θ ≈ 0.874628.
+- B3 MP slot cost below 6κ (new amplifier with a better row-growth to gain ratio): c = 5 gives θ ≈ 0.874658.
+- B4 NEW (solverH): a mean value for 1/(L(ψ̄_u)L(ηψ̄_u)), counting rows with simultaneous low zeros. This adds a new count line at the triple point. Not yet priced.
+- B5 Any change of ≥ 1.3e-6 in the Hölder 1/4 or the Gram 1/12 coefficient gains 1e-7.
+
+## frontier (open tasks / in flight)
+- Direct numerical non-correlation test of T against τ₆ (exp/noncorr/, in flight).
+- arXiv reading: Dunn 2403.13151, Castillo–de Faveri–Dunn 2604.01316, Bröker–Hoffstein 1312.0568 (in flight).
+
+## advisor_notes
+- Round 1 (2026-10-11): solverF (amplitude cap), solverH (small gains) and literatureF all returned negative; they are recorded above.
