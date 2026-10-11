@@ -1,1 +1,2 @@
 n=6 conv=lam Ys=[50000, 100000, 200000] Qs=[4000, 8000] #primes=33784 #targets=3556
+  symbol table 423s
