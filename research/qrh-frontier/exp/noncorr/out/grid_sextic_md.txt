@@ -168,3 +168,25 @@ n=6 conv=lam Ys=[50000, 100000, 200000] Qs=[1000, 2000, 4000] #primes=33784 #tar
    RAND (null, |T|)          100    1.08     6.13     0.93         1.23   7.68    31.0
    T: r(1)=0.03  <r(!=1)>=0.77  #m*rho2(1)=-8.59  | mu-coherence |sum rho c|^2/sum|rho c|^2 = 0.03 (worst-case CS-in-mu ratio 109.6)
    a-side CS ratio kappa_a(h'=1) [<=1; 1/#m ~ 9.4e-04]: T=1.43e-06  one=1.10e-03  ab2=5.39e-05  g*nu best=1.15e-04  T*nu mean=5.88e-05  RAND mean=6.34e-05 | E_a/(#a||v||^2): T=0.95 RAND=0.96
+
+[Y=200000 Q=4000] #a=53332 #m=1069 D=761  f(h'=1)=0.253 z=6.8 | f(h'!=1) mean 0.163 | POLE ctrl r(1)=24.4  ab2*POLE r(1)=0.13  (1159s)
+   family                     #v  <r(1)> max r(1) <r(!=1)> <#m rho2(1)>     sd     max
+   nu (untw, +ctrl)           36    4.73    92.38     2.15        15.83  64.93   362.3
+   ab2*nu                     36    0.88     3.25     0.88         0.72   3.35     8.4
+   a2*nu                      36    0.90     3.36     0.92         0.69   4.66    13.1
+   mu (untw)                 203    1.03     5.49     0.97         1.15   4.89    21.1
+   ab2*mu                    203    0.86     4.72     0.98         0.52   4.46    18.0
+   g*mu (untw)               203    0.82     4.90     1.01         0.06   4.81    19.1
+   conj(g)*mu (untw)         203    0.90     3.76     1.02         0.35   4.45    12.7
+   ab2*g*mu [T comps]        203    1.16     5.62     1.01         2.06   4.94    22.1
+   ab2*conj(g)*mu            203    0.85     3.99     1.05         0.37   4.33    14.1
+   g*nu (untw)                36    1.11     7.38     1.08         1.27   6.88    24.6
+   ab2*g*nu                   36    1.28     6.45     0.92         2.19   6.52    25.4
+   g*R*nu (untw)              36    0.78     2.12     1.01        -0.66   5.37     6.3
+   T*nu = ab2*g*R*nu          36    1.06     4.55     0.99         1.07   5.23    16.7
+   conj(g)*R*nu (untw)        36    1.20     7.07     1.05         0.76   7.79    25.1
+   ab2*conj(g)*R*nu           36    0.56     1.41     0.88        -0.94   3.81     4.9
+   RAND (null, |T|)          100    1.09     3.80     1.05         0.86   5.28    14.6
+   T: r(1)=0.78  <r(!=1)>=1.99  #m*rho2(1)=2.35  | mu-coherence |sum rho c|^2/sum|rho c|^2 = 0.84 (worst-case CS-in-mu ratio 125.1)
+   a-side CS ratio kappa_a(h'=1) [<=1; 1/#m ~ 9.4e-04]: T=1.83e-05  one=2.25e-03  ab2=3.22e-05  g*nu best=1.62e-04  T*nu mean=2.51e-05  RAND mean=2.07e-05 | E_a/(#a||v||^2): T=0.96 RAND=0.96
+done 1161s
